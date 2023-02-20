@@ -7,8 +7,11 @@ import cloudflare from "@astrojs/cloudflare";
 import prefetch from "@astrojs/prefetch";
 
 // https://astro.build/config
+import sitemap from "@astrojs/sitemap";
+
+// https://astro.build/config
 export default defineConfig({
   output: "server",
   adapter: cloudflare(),
-  integrations: [prefetch()]
+  integrations: [prefetch(), sitemap()]
 });
