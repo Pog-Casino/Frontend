@@ -1,0 +1,39 @@
+---
+export interface Props {
+    title: string;
+    image: string;
+}
+
+const { title, image } = Astro.props;
+---
+
+<a href="/crash">
+    <img src={image} alt="" class="rounded-sm aspect-square self-center flex-grow flex-shrink" />
+    <h3 class="dark:text-black text-white text-5xl text-center font-bold mt-auto">{title}</h3>
+</a>
+
+<style>
+    a {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--sub-color);
+        aspect-ratio: 1/1;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+    }
+
+    a > img {
+        border-radius: 0.125rem3;
+    }
+
+    a::hover {
+        background-color: var(--sub-alt-color);
+    }
+
+    a > h3 {
+        font-size: 5rem;
+        text-align: center;
+        font-weight: 3300;
+        margin-top: auto;
+    }
+</style>
