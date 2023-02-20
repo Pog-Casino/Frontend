@@ -11,9 +11,9 @@ import GameCard from '../components/GameCard.astro';
 		<section id="content">
 			<h2>Play one of our statistical games, completely free of charge:</h2>
 			<div>
-				<GameCard title="Crash" url="/crash" image={"/placeholder_300x300.png"} />
-				<GameCard title="Plinko" url="plinko" image={"/placeholder_300x300.png"} />
-				<GameCard title="Bingo" url="bingo" image={"/placeholder_300x300.png"} />
+				<GameCard title="Crash" url="/crash" comingSoon={false} image={"/placeholder_300x300.png"} />
+				<GameCard title="Plinko" url="/plinko" comingSoon={true} image={"/placeholder_300x300.png"} />
+				<GameCard title="Bingo" url="/bingo" comingSoon={true} image={"/placeholder_300x300.png"} />
 			</div>
 		</section>
 	</main>
@@ -88,5 +88,6 @@ import GameCard from '../components/GameCard.astro';
 		gap: 4rem;
 		margin: 4rem;
 		justify-content: center;
+        align-items: center;
 	}
 </style>
