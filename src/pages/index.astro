@@ -6,14 +6,14 @@ import GameCard from '../components/GameCard.astro';
 <BaseLayout title="POG.CASINO">
 	<main>
 		<section id="logo">
-			<h1>POG<wbr/>.CASINO</h1>
+			<h1>POG<wbr/><span>.</span>CASINO</h1>
 		</section>
 		<section id="content">
 			<h2>Play one of our statistical games, completely free of charge:</h2>
 			<div>
-				<GameCard title="Crash" image={"/placeholder_300x300.png"} />
-				<GameCard title="Plinko" image={"/placeholder_300x300.png"} />
-				<GameCard title="Bingo" image={"/placeholder_300x300.png"} />
+				<GameCard title="Crash" url="/crash" image={"/placeholder_300x300.png"} />
+				<GameCard title="Plinko" url="plinko" image={"/placeholder_300x300.png"} />
+				<GameCard title="Bingo" url="bingo" image={"/placeholder_300x300.png"} />
 			</div>
 		</section>
 	</main>
@@ -48,6 +48,18 @@ import GameCard from '../components/GameCard.astro';
 		font-weight: 900;
 		margin-top: 6rem;
 		user-select: none;
+		background-color: var(--sub-color);
+		border-radius: 0.1rem;
+	}
+
+	@media only screen and (max-width: 600px) {
+		main #logo > h1 {
+			font-size: 6rem;
+		}
+	}
+
+	main #logo > h1 > span {
+		color: var(--main-color);
 	}
 
 	main #content {
@@ -75,5 +87,6 @@ import GameCard from '../components/GameCard.astro';
 		flex-wrap: wrap;
 		gap: 4rem;
 		margin: 4rem;
+		justify-content: center;
 	}
 </style>

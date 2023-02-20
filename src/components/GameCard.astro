@@ -2,12 +2,13 @@
 export interface Props {
     title: string;
     image: string;
+    url: string;
 }
 
-const { title, image } = Astro.props;
+const { title, image, url } = Astro.props;
 ---
 
-<a href="/crash">
+<a href={url}>
     <img src={image} alt="" class="rounded-sm aspect-square self-center flex-grow flex-shrink" />
     <h3 class="dark:text-black text-white text-5xl text-center font-bold mt-auto">{title}</h3>
 </a>
@@ -16,24 +17,29 @@ const { title, image } = Astro.props;
     a {
         display: flex;
         flex-direction: column;
-        background-color: var(--sub-color);
+        background-color: var(--sub-alt-color);
         aspect-ratio: 1/1;
         padding: 0.25rem;
         border-radius: 0.25rem;
+        user-select: none;
     }
 
     a > img {
         border-radius: 0.125rem3;
     }
 
-    a::hover {
-        background-color: var(--sub-alt-color);
+    a:hover {
+        background-color: var(--sub-color);
     }
 
     a > h3 {
         font-size: 5rem;
         text-align: center;
-        font-weight: 3300;
+        font-weight: 300;
         margin-top: auto;
+    }
+
+    a:hover > h3 {
+        color: var(--main-color);
     }
 </style>
