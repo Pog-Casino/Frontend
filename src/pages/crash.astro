@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Chat from "../components/Chat.astro";
+---
+<BaseLayout title="Crash Game on pog.casino">
+    <Header />
+    <div id="root">
+        <div id="game">
+
+        </div>
+
+        <div id="sidebar">
+            <div id="order-manager">
+            </div>
+            <div id="chat"><Chat roomId="crash-chat" /></div>
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    #root {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    #root > #game {
+        flex: 1 1 50%;
+    }
+
+    #root > #sidebar {
+        display: flex;
+        flex-direction: column;
+        max-width: 25vw;
+    }
+
+    #root > #sidebar > #order-manager {
+        
+    }
+
+    #root > #sidebar > #chat {
+        flex-grow: 1;
+        max-height: 25vh;
+    }
+</style>

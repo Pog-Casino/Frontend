@@ -1,0 +1,117 @@
+---
+export interface Props {
+    roomId: string;
+}
+
+const { roomId } = Astro.props;
+---
+<div x-data={`chat("${roomId}")`}>
+    <ol x-ref="messages">
+        <template x-for="message in messages" x-key="message.id">
+            <li>
+                <span class="message-author" x-text="message.author"></span>:
+                <span class="message-content" x-text="message.content"></span>
+            </li>
+        </template>
+    </ol>
+    <form x-on:submit="sendChat">
+        <input x-ref="input" x-model="messageInput" type="text" placeholder="Type..."/>
+        <button x-ref="button" type="submit">Send</button>
+    </form>
+</div>
+
+<style>
+    div {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        background-color: var(--sub-color);
+        gap: 1rem;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    ol {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        overflow-wrap: break-word;
+    }
+
+    li {
+        animation: fly-in 0.02s linear;
+    }
+
+    @keyframes fly-in {
+        0% {
+            transform: translate(100%);
+        }
+        100% {
+            transform: translate(0%);
+        }
+    }
+
+    span #message-content {
+        word-break: break-all;
+    }
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    input {
+        flex-grow: 1;
+    }
+</style>
+
+<script>
+    import { withTurnstile } from "./turnstile";
+
+    const MAX_MESSAGE_LENGTH = 10;
+    document.addEventListener("alpine:init", () => {
+        Alpine!.data('chat', (...args: unknown[]) => ({
+            messageInput: "",
+            roomId: args[0] as string,
+            messages: [],
+
+            init() {
+                this.$watch("messages", (_) => {
+                    const e = this.$refs.messages as HTMLOListElement;
+                    e.scrollBy(0, 10000);
+                });
+                this.$watch("messageInput", (e: string) => {
+                    if (e.length > MAX_MESSAGE_LENGTH) {
+                        this.messageInput = e.substring(0, MAX_MESSAGE_LENGTH);
+                    }
+                    if (e.length > 0) {
+                        (this.$refs.button as HTMLButtonElement).disabled = false;
+                    }
+                })
+                this.messages.push({author: "System", content: "You are in room " + this.roomId});
+            },
+ 
+            sendChat(ev: SubmitEvent) {
+                ev.preventDefault();
+                const box = this.$refs.input as HTMLInputElement;
+                const button = this.$refs.button as HTMLButtonElement;
+                box.disabled = true;
+                button.disabled = true;
+
+                const toSend = this.messageInput;
+                this.messageInput = "";
+
+                withTurnstile((token) => {
+                    console.log(toSend, token);
+                    this.messages.push({
+                        author: "You",
+                        content: toSend
+                    });
+                    
+                    box.disabled = false;
+                    box.focus();
+                });
+            },
+        }));
+    });
+</script>
