@@ -1,0 +1,104 @@
+---
+
+---
+<header>
+    <h1 id="logo">POG<span><wbr/>.</span>CASINO</h1>
+    <div id="account">
+        Hi <span x-data x-text="$store.account.username"></span>, your balance: <span id="balance" x-data x-text="$store.account.animatedBalance"></span>
+    </div>
+</header>
+
+<style>
+    header {
+        width: 100vw;
+        min-height: 4rem;
+        background-color: var(--sub-alt-color);
+        display: flex;
+        flex-direction: row;
+        padding: 0 1rem 0 1rem;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #logo {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-right: auto;
+        height: fit-content;
+    }
+
+    #account {
+        margin-left: auto;
+        font-size: 2rem;
+        font-weight: 400;
+        height: fit-content;
+    }
+
+    #logo > span {
+        color: var(--main-color);
+    }
+
+    #balance {
+        color: var(--main-color);
+    }
+</style>
+
+<script>
+    const BALANCE_ANIMATION_TIME_MS = 2000;
+    document.addEventListener("alpine:init", () => {
+        Alpine!.store('account', new Account());
+    });
+
+    class Account {
+        public static getAccount(): Account {
+            return Alpine!.store("account") as Account;
+        }
+
+        // called by Alpine
+        init() {
+
+        }
+
+        constructor() {
+            this.username = "Loading...";
+            this.__balance = 0;
+            this.animatedBalance = 0;
+            this.__animationToken = undefined;
+        }
+
+        public username: string;
+        __balance: number;
+        public animatedBalance: number;
+        __animationToken: number | undefined;
+
+        public get balance() {
+            return this.__balance;
+        }
+
+        public set balance(newValue: number) {
+            this.__balance = newValue;
+            const self = this;
+            const startTime = performance.now();
+            const startValue = this.animatedBalance;
+            const toAnimate = newValue - startValue;
+            function animateBalance() {
+                if (self.__animationToken) {
+                    cancelAnimationFrame(self.__animationToken);
+                }
+                self.__animationToken = requestAnimationFrame((t) => {
+                    self.__animationToken = undefined;
+                    const timeDiff = t - startTime;
+                    if (timeDiff > BALANCE_ANIMATION_TIME_MS) {
+                        self.animatedBalance = startValue + toAnimate;
+                    }
+                    else {
+                        self.animatedBalance = Math.round(startValue + toAnimate * (timeDiff / BALANCE_ANIMATION_TIME_MS));
+                        animateBalance()
+                    }
+                })
+            }
+            animateBalance();
+        }
+    }
+</script>
