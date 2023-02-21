@@ -68,7 +68,7 @@ const { roomId } = Astro.props;
 <script>
     import { withTurnstile } from "./turnstile";
 
-    const MAX_MESSAGE_LENGTH = 10;
+    const MAX_MESSAGE_LENGTH = 200;
     document.addEventListener("alpine:init", () => {
         Alpine!.data('chat', (...args: unknown[]) => ({
             messageInput: "",
