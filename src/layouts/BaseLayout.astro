@@ -15,7 +15,8 @@ const { title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="bg-white dark:bg-black min-h-screen w-screen">
+	<body>
+        <div class="cf-turnstile" data-sitekey={import.meta.env.PROD ? "0x4AAAAAAACqoLuBUlydpBQP" : "1x00000000000000000000AA"} data-callback="turnstileCallback"></div>
 		<slot />
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" defer></script>
@@ -26,9 +27,28 @@ const { title } = Astro.props;
                 setTurnstile(token);
             }
         </script>
-        <div class="cf-turnstile" data-sitekey={import.meta.env.PROD ? "0x4AAAAAAACqoLuBUlydpBQP" : "1x00000000000000000000AA"} data-callback="turnstileCallback"></div>
 	</body>
 </html>
+<style>
+    html {
+        scrollbar-color: var(--sub-color) transparent;
+        scrollbar-width: thin;
+    }
+
+    body {
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font);
+        min-height: 100vh;
+    }
+
+    .cf-turnstile {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+</style>
 <style is:global>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
 
@@ -42,17 +62,8 @@ const { title } = Astro.props;
         --font: "Lexend Deca";
     }
 
-    html {
-        scrollbar-color: var(--sub-color) transparent;
-        scrollbar-width: thin;
-    }
-
     body {
-        background: var(--bg-color);
-        color: var(--text-color);
-        font-family: var(--font);
         margin: 0;
-        min-height: 100vh;
         overflow-x: hidden;
         padding: 0;
     }

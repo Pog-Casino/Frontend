@@ -1,0 +1,7 @@
+table UserId {
+    num: uint64;
+}
+
+table UnixTimestamp {
+    since_epoch: uint64;
+}

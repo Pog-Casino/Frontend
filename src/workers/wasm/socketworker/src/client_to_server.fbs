@@ -1,0 +1,16 @@
+include "shared.fbs";
+
+table Pong {
+    timestamp: UnixTimestamp (required);
+    data: uint64;
+}
+
+union Message {
+    Pong,
+}
+
+table RootMessage {
+    message: Message (required);
+}
+
+root_type RootMessage;

@@ -55,16 +55,17 @@
             return Alpine!.store("account") as Account;
         }
 
-        // called by Alpine
-        init() {
-
-        }
-
         constructor() {
             this.username = "Loading...";
             this.__balance = 0;
             this.animatedBalance = 0;
             this.__animationToken = undefined;
+
+            const shared_worker = new SharedWorker("/workers/websocket-worker.js");
+            shared_worker.port.onmessage = (ev) => {
+                console.log("From worker:", ev);
+            };
+            shared_worker.port.start();
         }
 
         public username: string;

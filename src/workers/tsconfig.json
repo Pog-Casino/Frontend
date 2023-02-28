@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "lib": ["WebWorker", "ESNext", "WebWorker.ImportScripts"],
+    "noEmit": false,
+    "outDir": "../../public/workers/",
+    "target": "ESNext",
+    "module": "None",
+    "isolatedModules": false,
+    "resolveJsonModule": false
+  },
+  "exclude": [],
+  "include": [
+    "../../public/workers/wasm/socketworker/socketworker.d.ts",
+    "./*.ts"
+  ]
+}

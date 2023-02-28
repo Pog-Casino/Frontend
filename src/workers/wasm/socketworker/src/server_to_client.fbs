@@ -1,0 +1,27 @@
+include "shared.fbs";
+
+table IdentifyingUserInfo {
+    username: string (required);
+    user_id: UserId (required);
+}
+
+table Ping {
+    timestamp: UnixTimestamp (required);
+    data: uint64;
+}
+
+table ChatMessage {
+    author: IdentifyingUserInfo (required);
+    content: string (required);
+}
+
+union Message {
+    ChatMessage,
+    Ping,
+}
+
+table RootMessage {
+    message: Message (required);
+}
+
+root_type RootMessage;
